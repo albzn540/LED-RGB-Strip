@@ -65,4 +65,4 @@ void fastLEDLoop() {
   FastLED.show(); // Update and display the leds
 }
 
-#endif FastLEDMethods_h
+#endif

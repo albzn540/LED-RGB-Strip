@@ -40,7 +40,6 @@ CRGBPalette16 IceColors_p = CRGBPalette16(
   CRGB::Aqua,
   CRGB::White
 );
-
 typedef struct {
   CRGBPalette16 palette;
   String name;
@@ -96,4 +95,4 @@ PatternAndNameList patterns = {
 const uint8_t patternCount = ARRAY_SIZE(patterns);
 uint8_t gCurrentPatternIndex = 0; // Index number of which pattern is current
 
-#endif FastLEDVariables_h
+#endif
