@@ -12,7 +12,6 @@ extern "C" {
 /* Local files */
 #include "Common.h"
 #include "DebugHelpers.h"
-#include "FastLEDVariables.h"
 
 #define DEBUG true  // Change this to enable/disable debugging
 
@@ -32,6 +31,8 @@ extern "C" {
 #define FRAMES_PER_SECOND   120      // here you can control the speed. With the Access Point / Web Server the animations run a bit slower.
 
 CRGB leds[NUM_LEDS];
+
+#include "FastLEDVariables.h"
 
 /*  Button controls  */
 enum ControlMode {
@@ -57,5 +58,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // Run FastLED things
+  fastLEDLoop();
 }

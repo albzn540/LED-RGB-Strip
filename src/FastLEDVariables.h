@@ -6,6 +6,7 @@ FASTLED_USING_NAMESPACE
 
 uint8_t fastLEDPower = 1;
 uint8_t brightness = 0;
+CRGB solidColor = CRGB::Blue;
 
 /*  Predefined brightness (Button clicks will loop through these)   */
 const uint8_t brightnessCount = 5;
@@ -15,6 +16,10 @@ uint8_t brightnessIndex = 0;
 uint8_t autoplay = 0;
 uint8_t autoplayDuration = 10;
 unsigned long autoPlayTimeout = 0;
+
+// Necessary for some shit
+TBlendType currentBlending = LINEARBLEND; //set blending type
+
 
 /********************************** Palettes **********************************/
 /******************************************************************************/
@@ -87,9 +92,27 @@ typedef struct {
 } PatternAndName;
 typedef PatternAndName PatternAndNameList[];
 
-// List of patterns to cycle through.  Each is defined as a separate function below.
+#include "effects/Twinkles.h"
+#include "effects/TwinkleFOX.h"
 
+// List of patterns to cycle through.  Each is defined as a separate function below.
 PatternAndNameList patterns = {
+
+  // TwinkleFOX patterns
+  { retroC9Twinkles,        "Retro C9 Twinkles" },
+  { redWhiteTwinkles,       "Red & White Twinkles" },
+  { blueWhiteTwinkles,      "Blue & White Twinkles" },
+  { redGreenWhiteTwinkles,  "Red, Green & White Twinkles" },
+  { fairyLightTwinkles,     "Fairy Light Twinkles" },
+  { snow2Twinkles,          "Snow 2 Twinkles" },
+  { hollyTwinkles,          "Holly Twinkles" },
+  { iceTwinkles,            "Ice Twinkles" },
+  { partyTwinkles,          "Party Twinkles" },
+  { forestTwinkles,         "Forest Twinkles" },
+  { lavaTwinkles,           "Lava Twinkles" },
+  { fireTwinkles,           "Fire Twinkles" },
+  { cloud2Twinkles,         "Cloud 2 Twinkles" },
+  { oceanTwinkles,          "Ocean Twinkles" },
 };
 
 const uint8_t patternCount = ARRAY_SIZE(patterns);
