@@ -6,6 +6,8 @@ FASTLED_USING_NAMESPACE
 
 uint8_t fastLEDPower = 1;
 uint8_t brightness = 0;
+uint8_t speed = 30;
+
 CRGB solidColor = CRGB::Blue;
 
 /*  Predefined brightness (Button clicks will loop through these)   */
@@ -19,6 +21,21 @@ unsigned long autoPlayTimeout = 0;
 
 // Necessary for some shit
 TBlendType currentBlending = LINEARBLEND; //set blending type
+
+
+/* Variable setup for effect helpers */
+// For lineit (Sending pixels up/down the strip)
+bool thisdir = 0;
+
+// COOLING: How much does the air cool as it rises?
+// Less cooling = taller flames.  More cooling = shorter flames.
+// Default 50, suggested range 20-100
+uint8_t cooling = 49;
+
+// SPARKING: What chance (out of 255) is there that a new spark will be lit?
+// Higher chance = more roaring fire.  Lower chance = more flickery fire.
+// Default 120, suggested range 50-200.
+uint8_t sparking = 60;
 
 
 /********************************** Palettes **********************************/
@@ -77,9 +94,19 @@ const String paletteNames[paletteCount] = {
   "Ice"
  };
 
+
+
+
+
+
+
 /************************************ Hue ************************************/
 /*****************************************************************************/
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
+
+
+
+
 
 
 /********************************** Patterns **********************************/
@@ -92,11 +119,41 @@ typedef struct {
 } PatternAndName;
 typedef PatternAndName PatternAndNameList[];
 
+#include "effects/EffectHelpers.h"
+#include "effects/Pride.h"
 #include "effects/Twinkles.h"
 #include "effects/TwinkleFOX.h"
+#include "effects/FastLEDEffects.h"
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 PatternAndNameList patterns = {
+  // Pride
+  { pride,                  "Pride" },
+
+  //FastLedEffects
+  // { showSolidColor,         "Solid Color" } <-- is declaired last
+  { rainbow,                "Rainbow" },
+  { rainbowWithGlitter,     "Rainbow With Glitter" },
+  { rainbowSolid,           "Solid Rainbow" },
+  { confetti,               "Confetti" },
+  { sinelon,                "Sinelon" },
+  { bpm,                    "Beat" },
+  { juggle,                 "Juggle" },
+  { fire,                   "Fire" },
+  { water,                  "Water" },
+  { colorWaves,             "Colorwaves" },
+  { beatwave,               "Beatwave" },
+  { blendwave,              "Blendwave" },
+  { ripple,                 "Ripple" },
+  { plasma,                 "Plasma" },
+  { serendipitous,          "Serendipitous" },
+  { rainbow_beat,           "Rainbow_beat" },
+
+  // Twinkle patterns
+  { rainbowTwinkles,        "Rainbow Twinkles" },
+  { snowTwinkles,           "Snow Twinkles" },
+  { cloudTwinkles,          "Cloud Twinkles" },
+  { incandescentTwinkles,   "Incandescent Twinkles" },
 
   // TwinkleFOX patterns
   { retroC9Twinkles,        "Retro C9 Twinkles" },
@@ -113,6 +170,8 @@ PatternAndNameList patterns = {
   { fireTwinkles,           "Fire Twinkles" },
   { cloud2Twinkles,         "Cloud 2 Twinkles" },
   { oceanTwinkles,          "Ocean Twinkles" },
+
+  { showSolidColor,         "Solid Color" }
 };
 
 const uint8_t patternCount = ARRAY_SIZE(patterns);

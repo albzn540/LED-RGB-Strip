@@ -1,8 +1,6 @@
 #ifndef FastLEDMethods_h
 #define FastLEDMethods_h
 
-#include "FastLEDVariables.h"
-
 void setupFastLED() {
   //FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);         // for WS2812 (Neopixel)
   FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
@@ -13,11 +11,6 @@ void setupFastLED() {
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   FastLED.show();
 }
-
-
-
-
-
 
 /****************************** Different tests ******************************/
 /*****************************************************************************/
@@ -61,6 +54,7 @@ void changePalettePeriodically() {
   }
   
 } // changePalettePeriodically()
+
 
 
 
@@ -273,5 +267,7 @@ void fastLEDLoop() {
   // FastLED.delay(1000 / FRAMES_PER_SECOND);
   FastLED.show(); // Update and display the leds
 }
+
+
 
 #endif

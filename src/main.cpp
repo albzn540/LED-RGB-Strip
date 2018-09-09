@@ -33,6 +33,7 @@ extern "C" {
 CRGB leds[NUM_LEDS];
 
 #include "FastLEDVariables.h"
+#include "FastLEDMethods.h"
 
 /*  Button controls  */
 enum ControlMode {
@@ -40,8 +41,6 @@ enum ControlMode {
 };
 ControlMode currentBtnMode = First;
 
-// ---------------------------- Import methods ----------------------------//
-#include "FastLEDMethods.h"
 
 void setup() {
   beginDebug();
