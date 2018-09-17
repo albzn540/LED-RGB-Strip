@@ -1,62 +1,51 @@
 
-#include <FastLED.h>
-FASTLED_USING_NAMESPACE
+/*
+    ___        _______ ____   ___  __  __ _____ 
+   / \ \      / | ____/ ___| / _ \|  \/  | ____|
+  / _ \ \ /\ / /|  _| \___ \| | | | |\/| |  _|  
+ / ___ \ V  V / | |___ ___) | |_| | |  | | |___ 
+/_/   \_\_/\_/  |_____|____/ \___/|_|  |_|_____|
+ _     _____ ____  ____                         
+| |   | ____|  _ \/ ___|                        
+| |   |  _| | | | \___ \                        
+| |___| |___| |_| |___) |                       
+|_____|_____|____/|____/                        
 
-extern "C" {
-  #include "user_interface.h"
-}
-
-#include <Arduino.h>
-#include <EEPROM.h>
-
-/* Local files */
-#include "Common.h"
-#include "DebugHelpers.h"
+An awesome LED sketch written by Albin Winkelmann
+*/
 
 #define DEBUG true  // Change this to enable/disable debugging
+#define SUPERDEBUG false
 
-// ---------------------------- Settings ----------------------------//
-/*  Indication leds  */
-#define   ESP_LED           D4
-
-/*  FastLED Settings  */
-#define DATA_PIN            D7
-#define CLK_PIN             D5
-#define LED_TYPE            APA102        // WS2812B or APA102
-#define COLOR_ORDER         BGR           // GRB        BGR
-#define NUM_LEDS            60
-
-#define VOLTAGE             5
-#define MILLI_AMPS          3000     // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
-#define FRAMES_PER_SECOND   120      // here you can control the speed. With the Access Point / Web Server the animations run a bit slower.
-
-CRGB leds[NUM_LEDS];
-
-#include "FastLEDVariables.h"
-#include "FastLEDMethods.h"
-
-/*  Button controls  */
-enum ControlMode {
-    First
-};
-ControlMode currentBtnMode = First;
-
+/* Local files */
+#include "Common.h" // <-- All settings in here
 
 void setup() {
   beginDebug();
-  Traceln("Initializing RGB Led lights...");
-  Serial.setDebugOutput(false); // Extra debug stuff
+  Traceln("\n\nInitializing RGB Led lights...");
+  delay(100);
+  Serial.setDebugOutput(SUPERDEBUG); // Extra debug stuff
 
   setupFastLED();
 
   EEPROM.begin(512);
   //TODO loadSettings();
+  brightness = 200;
   FastLED.setBrightness(brightness); // After loading settings
 
+  fastLEDPower = 1;
+  autoplay = 1;
   Traceln("Setup complete!");
 }
 
 void loop() {
   // Run FastLED things
+  static int lastPattern = gCurrentPatternIndex;
+  int currentPattern = gCurrentPatternIndex;
+  
+  if(lastPattern != currentPattern) {
+    Serial.printf("Pattern: %s\n", patterns[gCurrentPatternIndex].name.c_str());
+  }
+  lastPattern = currentPattern;
   fastLEDLoop();
 }

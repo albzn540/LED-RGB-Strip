@@ -7,6 +7,7 @@
     "type_traits": "cpp",
     "array": "cpp",
     "typeinfo": "cpp",
-    "functional": "cpp"
+    "functional": "cpp",
+    "fstream": "cpp"
   }
 }

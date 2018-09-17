@@ -1,6 +1,8 @@
 #ifndef FastLEDVariables_h
 #define FastLEDVariables_h
 
+#include <EEPROM.h>
+#define FASTLED_ALLOW_INTERRUPTS 10
 #include <FastLED.h>
 FASTLED_USING_NAMESPACE
 
@@ -22,8 +24,8 @@ unsigned long autoPlayTimeout = 0;
 // Necessary for some shit
 TBlendType currentBlending = LINEARBLEND; //set blending type
 
-
 /* Variable setup for effect helpers */
+
 // For lineit (Sending pixels up/down the strip)
 bool thisdir = 0;
 
@@ -141,7 +143,7 @@ PatternAndNameList patterns = {
   { juggle,                 "Juggle" },
   { fire,                   "Fire" },
   { water,                  "Water" },
-  { colorWaves,             "Colorwaves" },
+  { colorWaves,             "Color Waves" },
   { beatwave,               "Beatwave" },
   { blendwave,              "Blendwave" },
   { ripple,                 "Ripple" },

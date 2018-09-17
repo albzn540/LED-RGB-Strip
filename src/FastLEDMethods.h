@@ -2,8 +2,8 @@
 #define FastLEDMethods_h
 
 void setupFastLED() {
-  //FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);         // for WS2812 (Neopixel)
-  FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
+  FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);         // for WS2812 (Neopixel)
+  //FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
   FastLED.setDither(false);
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(brightness);
@@ -257,17 +257,17 @@ void fastLEDLoop() {
     gHue++;  // slowly cycle the "base color" through the rainbow
   }
 
-  autoPlayTimeout = millis() + (autoplayDuration * 1000);
+  if (autoplay && (millis() > autoPlayTimeout)) {
+    adjustPattern(true);
+    autoPlayTimeout = millis() + (autoplayDuration * 1000);
+  }
 
   // Call the current pattern function once, updating the 'leds' array
   patterns[gCurrentPatternIndex].pattern();
-
 
   // insert a delay to keep the framerate modest
   // FastLED.delay(1000 / FRAMES_PER_SECOND);
   FastLED.show(); // Update and display the leds
 }
-
-
 
 #endif
