@@ -6,7 +6,7 @@
 #include "WiFi.h"
 #include "OTA.h"
 
-unsigned long startSettingsMs = 0;
+unsigned long settingsTimer = 0;
 #define SETTINGS_DURATION     8000 //ms
 
 typedef struct {
@@ -31,7 +31,7 @@ void exitSettingsMode() {
 }
 
 void settingsMode() {
-  if(millis() - startSettingsMs > SETTINGS_DURATION) {
+  if(millis() - settingsTimer > SETTINGS_DURATION) {
     // Settings timeout - going back to regular modes
     exitSettingsMode();
   } else {
@@ -42,6 +42,8 @@ void settingsMode() {
 void nextSetting() {
   // Next setting and wrap around
   settingsIndex = (settingsIndex + 1 >= settingsCount) ? 0 : settingsIndex + 1;
+  // Restart timer
+  settingsTimer = millis();
   Serial.printf("Setting: %s\n", settingsFunctions[settingsIndex].name);
   indicateIndex(settingsIndex);
 }
@@ -50,16 +52,19 @@ void prevSetting() {
   // Previous setting and wrap around
   // Note the '- 1' on the end of the line
   settingsIndex = ((settingsIndex - 1 < 0) ? settingsCount : settingsIndex) - 1;
+  // Restart timer
+  settingsTimer = millis();
   Serial.printf("Setting: %s\n", settingsFunctions[settingsIndex].name);
   indicateIndex(settingsIndex);
 }
 
 void startSettingsMode() {
   currentBtnMode = Settings;
-  Traceln("Settings-mode, waiting for input");
+  settingsTimer = millis(); // reset timer
   btnOne.attachClick(exitSettingsMode);
   btnTwo.attachClick(nextSetting);
   btnThree.attachClick(prevSetting);
+  Traceln("Settings-mode, waiting for input");
 }
 
 #endif
