@@ -82,6 +82,18 @@ const CRGBPalette16 palettes[] = {
   IceColors_p
 };
 
+// PaletteAndNameList palettes = {
+//   RainbowColors_p,        "Rainbow",
+//   RainbowStripeColors_p,  "Rainbow Stripe",
+//   CloudColors_p,          "Cloud",
+//   LavaColors_p,           "Lava",
+//   OceanColors_p,          "Ocean",
+//   ForestColors_p,         "Forest",
+//   PartyColors_p,          "Party",
+//   HeatColors_p,           "Heat",
+//   IceColors_p,            "Ice"
+// };
+
 const uint8_t paletteCount = ARRAY_SIZE(palettes);
 
 const String paletteNames[paletteCount] = {
@@ -177,6 +189,6 @@ PatternAndNameList patterns = {
 };
 
 const uint8_t patternCount = ARRAY_SIZE(patterns);
-uint8_t gCurrentPatternIndex = 0; // Index number of which pattern is current
+int8_t gCurrentPatternIndex = 0; // Index number of which pattern is current
 
 #endif
