@@ -21,3 +21,22 @@
   #define Tracef3(x,y,z)  ((void) 0)
   #define TraceFunc()     ((void) 0)
 #endif // DEBUG
+
+#ifndef DEBUG_h
+#define DEBUG_h
+
+void chipInformation() {
+  Traceln();
+  Trace( F("Heap: ") ); Traceln(system_get_free_heap_size());
+  Trace( F("Boot Vers: ") ); Traceln(system_get_boot_version());
+  Trace( F("CPU: ") ); Traceln(system_get_cpu_freq());
+  Trace( F("SDK: ") ); Traceln(system_get_sdk_version());
+  Trace( F("Chip ID: ") ); Traceln(system_get_chip_id());
+  Trace( F("Flash ID: ") ); Traceln(spi_flash_get_id());
+  Trace( F("Flash Size: ") ); Traceln(ESP.getFlashChipRealSize());
+  Trace( F("Vcc: ") ); Traceln(ESP.getVcc());
+  Traceln();  
+}
+
+
+#endif 
