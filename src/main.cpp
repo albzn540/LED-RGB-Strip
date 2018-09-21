@@ -48,9 +48,12 @@ void setup() {
 }
 
 void loop() {
-  // Run FastLED things
-
-  handleButtons();
+  // Run task manager
+  taskManager.execute();
   
+  // Run FastLED things
   fastLEDLoop();
+
+  // Handle buttons and settings and modes
+  handleButtons();
 }
