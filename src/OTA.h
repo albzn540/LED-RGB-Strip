@@ -25,11 +25,12 @@ void startOTA() {
 
   Trace("Wifimode: "); Traceln(wifiMode);
   
-  // //start wifi if it's off
-  // if(wifi_mode != STAT_MODE) {
-  //   if(wifi_mode == AP_MODE) turnOffWifiAp();
-  //   startWiFiStation();
-  // }
+  //start wifi if it's off
+  if(wifiMode != STAT_MODE) {
+    if(wifiMode == AP_MODE)
+      turnOffWifiAp(); // turn of AP if it's currently on
+    startWiFiStation();
+  }
 
   ArduinoOTA.onStart([]() {
     String type;
