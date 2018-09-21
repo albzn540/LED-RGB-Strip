@@ -3,10 +3,12 @@
 
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
+#include <FS.h>
 #include <ArduinoOTA.h>
 
 /*  Local libraries  */
 #include "Common.h"
+#include "WiFi.h"
 #include "DebugHelpers.h"
 
 /*  OTA  */
@@ -14,14 +16,14 @@ bool OTAOn = true;
 
 void ledPercent(uint8_t progress, uint8_t total) {
   uint8_t x = map(progress, 0, total, 0, NUM_LEDS);
-  for(int i = 0; i <= x; i++) {
+  for(uint8_t i = 0; i <= x; i++) {
     leds[i] = CRGB::Blue;
   }
 }
 
 void startOTA() {
 
-  Trace("Wifimode: "); Traceln(wifi_mode);
+  Trace("Wifimode: "); Traceln(wifiMode);
   
   // //start wifi if it's off
   // if(wifi_mode != STAT_MODE) {
@@ -41,7 +43,7 @@ void startOTA() {
     Serial.println("Start updating " + type);
   });
   ArduinoOTA.onEnd([]() {
-    for(int i = 0; i < NUM_LEDS; i++) {
+    for(uint8_t i = 0; i < NUM_LEDS; i++) {
       leds[i] = CRGB::Green;
     }
     FastLED.show();
@@ -54,7 +56,7 @@ void startOTA() {
     FastLED.show();
   });
   ArduinoOTA.onError([](ota_error_t error) {
-    for(int i = 0; i < noLeds; i++) {
+    for(uint8_t i = 0; i < NUM_LEDS; i++) {
       leds[i] = CRGB::Red;
     }
     FastLED.show();
