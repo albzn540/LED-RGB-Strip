@@ -5,13 +5,15 @@
 #include "Common.h"
 #include "DebugHelpers.h"
 
-// Wi-Fi network to connect to (if not in AP mode)
-char ssid[] = "";
-char password[] = "";
+// // Wi-Fi network to connect to (if not in AP mode)
+// char ssid[] = "";
+// char password[] = "";
 
-/* Access-Point settings*/
-#define AP_SSID             ""
-#define AP_PASSWORD         ""
+// /* Access-Point settings*/
+// #define AP_SSID             ""
+// #define AP_PASSWORD         ""
+
+#include "Secrets.h" // Import wifi-secrets from secrets instead
 
 #define DEBUG_WIFI 1
 
@@ -104,7 +106,7 @@ void handleWifi() {
   static uint16_t lastStatus = 0;
 
   if(lastStatus != WiFi.status()) {
-    Tracef2("\nNew Wifi status: %d\n", WiFi.status());
+    Tracef("\nNew Wifi status: %d\n", WiFi.status());
     lastStatus = WiFi.status();
   }
 }
