@@ -6,12 +6,12 @@
 #include "WiFi.h"
 #include "OTA.h"
 
-unsigned long startSettings = 0;
+unsigned long startSettingsMs = 0;
 #define SETTINGS_DURATION     8000 //ms
 
 typedef struct {
   callbackFunction function;
-  String name;
+  const char* name;
 } SettingsFunction;
 typedef SettingsFunction SettingsFunctions[];
 
@@ -21,15 +21,17 @@ SettingsFunctions settingsFunctions = {
   startOTA,           "Start OTA"
 };
 
-const uint8_t settingsCount = ARRAY_SIZE(settingsFunctions);
-uint8_t settingsIndex = 0;
+const int8_t settingsCount = ARRAY_SIZE(settingsFunctions);
+int8_t settingsIndex = 0;
 
 void exitSettingsMode() {
   currentBtnMode = AdjustBrightness;
+  Serial.printf("Choosing setting: %s\n", settingsFunctions[settingsIndex].name);
+  settingsFunctions[settingsIndex].function();
 }
 
 void settingsMode() {
-  if(millis() - startSettings > SETTINGS_DURATION) {
+  if(millis() - startSettingsMs > SETTINGS_DURATION) {
     // Settings timeout - going back to regular modes
     exitSettingsMode();
   } else {
@@ -40,6 +42,7 @@ void settingsMode() {
 void nextSetting() {
   // Next setting and wrap around
   settingsIndex = (settingsIndex + 1 >= settingsCount) ? 0 : settingsIndex + 1;
+  Serial.printf("Setting: %s\n", settingsFunctions[settingsIndex].name);
   indicateIndex(settingsIndex);
 }
 
@@ -47,6 +50,7 @@ void prevSetting() {
   // Previous setting and wrap around
   // Note the '- 1' on the end of the line
   settingsIndex = ((settingsIndex - 1 < 0) ? settingsCount : settingsIndex) - 1;
+  Serial.printf("Setting: %s\n", settingsFunctions[settingsIndex].name);
   indicateIndex(settingsIndex);
 }
 
