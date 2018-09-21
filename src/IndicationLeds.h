@@ -10,16 +10,21 @@ uint8_t numberOfIndicationLeds = NUM_INDICATION_LEDS; // Number of leds to displ
 
 #define PRESET_INDICATION_DURATION 1500
 unsigned long indicationDuration = 1500; //ms 
-unsigned long startIndication    = 0;
+unsigned long startIndicationMs  = 0;
 
 void writeIndicationLeds();   // Declare functions that are necessary
 bool resetIndicationLeds();  // for the task
 Task tWriteIndicationLeds(0, TASK_FOREVER, writeIndicationLeds, &taskManager, resetIndicationLeds);
 
 bool resetIndicationLeds() {
-  startIndication = millis();
+  startIndicationMs = millis();
   numberOfIndicationLeds = NUM_INDICATION_LEDS;
   return true;
+}
+
+void startIndication(unsigned long durationMs = PRESET_INDICATION_DURATION) {
+  indicationDuration = durationMs;
+  tWriteIndicationLeds.enable();
 }
 
 void setIndicationDuration(uint8_t ms) {
@@ -41,7 +46,7 @@ void writeIndicationLeds() {
 }
 
 void writeIndicationLedsCallback() {
-  if(millis() - startIndication > indicationDuration) {
+  if(millis() - startIndicationMs > indicationDuration) {
     writeIndicationLeds();
   } else {
     tWriteIndicationLeds.disable();
@@ -57,8 +62,8 @@ void indicateIndex(uint8_t index, CRGB indicateColor, CRGB bgColor = CRGB::Black
   Tracef2("Indicate index: %d\n", index);
 }
 
-void indicateIndex(uint8_t index) {
-  indicateIndex(index, CRGB::DeepPink);
+void indicateIndex(uint8_t index, uint8_t length = NUM_INDICATION_LEDS) {
+  indicateIndex(index, CRGB::DeepPink, CRGB::Black, length);
 }
 
 #endif
