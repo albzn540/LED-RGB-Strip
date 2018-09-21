@@ -52,6 +52,8 @@ void handleButtons() {
         btnThree.attachDuringLongPress(decreaseSpeed);
         break;
     }
+    startIndication(2000);
+    indicateIndex(currentBtnMode, None);  //dynamically fix support for more buttonmodes
   }
   lastMode = currentBtnMode;
 }
