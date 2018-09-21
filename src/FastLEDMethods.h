@@ -174,15 +174,15 @@ void setSolidColor(CRGB color) {
 
 // increase or decrease the current pattern number, and wrap around at the ends
 void adjustPattern(bool up) {
-  if (up)
+  if(up)
     gCurrentPatternIndex++;
   else
     gCurrentPatternIndex--;
 
   // wrap around at the ends
-  if (gCurrentPatternIndex < 0)
+  if(gCurrentPatternIndex < 0)
     gCurrentPatternIndex = patternCount - 1;
-  if (gCurrentPatternIndex >= patternCount)
+  if(gCurrentPatternIndex >= patternCount)
     gCurrentPatternIndex = 0;
 
   if (autoplay == 0) {
@@ -231,6 +231,101 @@ void reverseLeds() {
     temp = leds[(NUM_LEDS-1) - i];
     leds[(NUM_LEDS -1 )- i] = leds[i];
     leds[i] = temp; 
+  }
+}
+
+void adjustPatternUpCallback() {
+  adjustPattern(true);
+  Trace("Pattern: ");
+  Traceln(patterns[gCurrentPatternIndex].name);
+}
+
+void adjustPatternDownCallback() {
+  adjustPattern(false);
+  Trace("Pattern: ");
+  Traceln(patterns[gCurrentPatternIndex].name);
+}
+
+void adjustSpeedUpCallback() {
+  if(speed >= 255 - PRESS_ADJUST_SPEED) {
+    speed = 255;
+  } else {
+    speed += PRESS_ADJUST_SPEED; 
+  }
+  Tracef2("\rSpeed: %d        ", speed);
+}
+
+void adjustSpeedDownCallback() {
+  if(speed < PRESS_ADJUST_SPEED) {
+    speed = 0;
+  } else {
+    speed -= PRESS_ADJUST_SPEED; 
+  }
+  Tracef2("\rSpeed: %d        ", speed);
+}
+
+void increaseSpeed() {
+  static unsigned long lastChanged = 0;
+  if(millis() - lastChanged > ADJUST_INTERVAL) {
+    if(speed >= 255 - LONG_PRESS_ADJUST_SPEED) {
+      speed = 255;
+    } else {
+      speed += LONG_PRESS_ADJUST_SPEED; 
+    }
+    lastChanged = millis();
+    Tracef2("\rSpeed: %d        ", speed);
+  }
+}
+
+void decreaseSpeed() {
+  static unsigned long lastChanged = 0;
+  if(millis() - lastChanged > ADJUST_INTERVAL) {
+    if(speed < LONG_PRESS_ADJUST_SPEED) {
+      speed = 0;
+    } else {
+      speed -= LONG_PRESS_ADJUST_SPEED; 
+    }
+    lastChanged = millis();
+    Tracef2("\rSpeed: %d        ", speed);
+  }
+}
+
+void adjustBrightnessUpCallback() {
+  adjustBrightness(true);
+  Tracef2("\rBrigthness: %d        ", brightness);
+}
+
+void adjustBrightnessDownCallback() {
+  adjustBrightness(false);
+  Tracef2("\rBrigthness: %d        ", brightness);
+}
+
+void increaseBrigthnessCallback() {
+  static unsigned long lastChanged = 0;
+  if(millis() - lastChanged > ADJUST_INTERVAL) {
+    if(brightness >= 255 - LONG_PRESS_ADJUST_BRIGHTNESS) {
+      brightness = 255;
+    } else {
+      brightness += LONG_PRESS_ADJUST_BRIGHTNESS; 
+    }
+    lastChanged = millis();
+    FastLED.setBrightness(brightness);
+    Tracef2("\rBrigthness: %d        ", brightness);
+  }
+
+}
+
+void decreaseBrigthnessCallback() {
+  static unsigned long lastChanged = 0;
+  if(millis() - lastChanged > ADJUST_INTERVAL) {
+    if(brightness < LONG_PRESS_ADJUST_BRIGHTNESS) {
+      brightness = 0;
+    } else {
+      brightness -= LONG_PRESS_ADJUST_BRIGHTNESS; 
+    }
+    lastChanged = millis();
+    FastLED.setBrightness(brightness);
+    Tracef2("\rBrigthness: %d        ", brightness);
   }
 }
 
