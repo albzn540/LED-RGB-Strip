@@ -252,7 +252,7 @@ void adjustSpeedUpCallback() {
   } else {
     speed += PRESS_ADJUST_SPEED; 
   }
-  Tracef2("\rSpeed: %d        ", speed);
+  Tracef("\rSpeed: %d        ", speed);
 }
 
 void adjustSpeedDownCallback() {
@@ -261,7 +261,7 @@ void adjustSpeedDownCallback() {
   } else {
     speed -= PRESS_ADJUST_SPEED; 
   }
-  Tracef2("\rSpeed: %d        ", speed);
+  Tracef("\rSpeed: %d        ", speed);
 }
 
 void increaseSpeed() {
@@ -273,7 +273,7 @@ void increaseSpeed() {
       speed += LONG_PRESS_ADJUST_SPEED; 
     }
     lastChanged = millis();
-    Tracef2("\rSpeed: %d        ", speed);
+    Tracef("\rSpeed: %d        ", speed);
   }
 }
 
@@ -286,18 +286,18 @@ void decreaseSpeed() {
       speed -= LONG_PRESS_ADJUST_SPEED; 
     }
     lastChanged = millis();
-    Tracef2("\rSpeed: %d        ", speed);
+    Tracef("\rSpeed: %d        ", speed);
   }
 }
 
 void adjustBrightnessUpCallback() {
   adjustBrightness(true);
-  Tracef2("\rBrigthness: %d        ", brightness);
+  Tracef("\rBrigthness: %d        ", brightness);
 }
 
 void adjustBrightnessDownCallback() {
   adjustBrightness(false);
-  Tracef2("\rBrigthness: %d        ", brightness);
+  Tracef("\rBrigthness: %d        ", brightness);
 }
 
 void increaseBrigthnessCallback() {
@@ -310,7 +310,7 @@ void increaseBrigthnessCallback() {
     }
     lastChanged = millis();
     FastLED.setBrightness(brightness);
-    Tracef2("\rBrigthness: %d        ", brightness);
+    Tracef("\rBrigthness: %d        ", brightness);
   }
 
 }
@@ -325,7 +325,7 @@ void decreaseBrigthnessCallback() {
     }
     lastChanged = millis();
     FastLED.setBrightness(brightness);
-    Tracef2("\rBrigthness: %d        ", brightness);
+    Tracef("\rBrigthness: %d        ", brightness);
   }
 }
 
