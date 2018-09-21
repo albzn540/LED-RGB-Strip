@@ -26,7 +26,16 @@ void setup() {
   delay(100);
   Serial.setDebugOutput(SUPERDEBUG); // Extra debug stuff
 
+  // Some bug in ESP8266 requires this to be done.
+  WiFi.disconnect();
+  WiFi.mode(WIFI_OFF);
+
+  #ifdef DEBUG
+  chipInformation();
+  #endif
+
   setupFastLED();
+  setupButtons();
 
   EEPROM.begin(512);
   //TODO loadSettings();
@@ -34,18 +43,14 @@ void setup() {
   FastLED.setBrightness(brightness); // After loading settings
 
   fastLEDPower = 1;
-  autoplay = 1;
+  autoplay = 0;
   Traceln("Setup complete!");
 }
 
 void loop() {
   // Run FastLED things
-  static int lastPattern = gCurrentPatternIndex;
-  int currentPattern = gCurrentPatternIndex;
+
+  handleButtons();
   
-  if(lastPattern != currentPattern) {
-    Serial.printf("Pattern: %s\n", patterns[gCurrentPatternIndex].name.c_str());
-  }
-  lastPattern = currentPattern;
   fastLEDLoop();
 }
