@@ -58,9 +58,10 @@ enum ControlMode {
   AdjustBrightness,
   AdjustPattern,
   AdjustSpeed,
+  None,
   Settings
 };
-#define NUM_MODES 3 // loopable control modes
+#define NUM_MODES None // loopable control modes
 ControlMode currentBtnMode = AdjustBrightness;
 
 /*  Define adjusting speeds  */
